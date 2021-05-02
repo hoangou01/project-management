@@ -71,6 +71,14 @@ public class main {
 //         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
 //         
 //         conn.close();
+        System.out.println("NHAP MA NHAN VIEN BAN MUON XEM :");
+        int maNhanVien = in.nextInt();
+        System.out.printf("DANH SACH DU AN NHAN VIEN %d DANG LAM \n"  , maNhanVien);
+        ql.showDuanOfNhanVien(maNhanVien);
+        System.out.println("NHAP TEN DU AN BAN MUON TIM :");
+        String name;
+        name = in.next();
+        qlda.timKiemDuAn(name);
         int choose = 8;
         do {
             System.out.println("===========MENU=========");

@@ -7,6 +7,7 @@ package com.mycompany.quanlyduan;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -34,6 +35,23 @@ public class QuanLyNhanVien {
         }
         str.close();
         conn.close();
+    }
+    // updating
+    public void showDuanOfNhanVien(int maNhanVien) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
+        String sql = "SELECT da.* FROM duan da "
+                + "INNER JOIN duan_nhanvien danv ON da.maDuAn = danv.duan_id "
+                + "INNER JOIN nhanvien nv ON danv.nhanvien_id = nv.id "
+                + "WHERE nv.id = ?";
+        PreparedStatement str = conn.prepareStatement(sql);
+        str.setInt(1, maNhanVien);
+        ResultSet rs = str.executeQuery(); 
+        while (rs.next()) {
+            System.out.printf("ID : %d \tNAME : %s \t\tSTART : %s \tFINISH : %s \tMONEY : %f \n"
+                    , rs.getInt("maDuAn") , rs.getString("tenDuAn"), rs.getDate("ngayBatDau") , rs.getDate("ngayKetThuc") , rs.getDouble("tongkinhphi"));
+  
+        }
     }
     public void themNhanVien(NhanVien d){
         this.dsNhanVien.add(d);

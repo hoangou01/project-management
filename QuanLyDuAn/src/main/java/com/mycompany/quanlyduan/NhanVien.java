@@ -68,19 +68,7 @@ public class NhanVien {
             }
         }
     }
-// updating
-    public void showDuanOfNhanVien(int maNhanVien) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
-        Statement str = conn.createStatement();
-        ResultSet rs = str.executeQuery("SELECT * FROM nhanvien");
-        while (rs.next()) {
-            System.out.printf("-ID:%d\t,Name:%s\t,Email:%s\t,Position:%s\t,Salary:%.2f",
-                    rs.getInt("id"), rs.getString("name"), rs.getString("email"),
-                    rs.getString("gioitinh"),
-                    rs.getString("LoaiNhanVien"), rs.getDouble("luong"));
-        }
-    }
+
 
     /**
      * @return the maNhanVien

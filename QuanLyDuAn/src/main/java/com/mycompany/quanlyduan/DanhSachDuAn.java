@@ -55,13 +55,26 @@ public class DanhSachDuAn {
         str.setInt(1, maDuAn);
         ResultSet rs = str.executeQuery();
         while (rs.next()) {
-            System.out.printf("-ID:%d\tName:%s\tEmail:%s \tSEX:%s \tPosition:%s",
+            System.out.printf("-ID:%d\tName:%s\tEmail:%s \tSEX:%s \t\tPosition:%s",
                     rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
                     rs.getString("gioitinh"),
                     rs.getString("loainhanvien"));
             System.out.println();
         }
 
+    }
+    public void timKiemDuAn (String name) throws ClassNotFoundException, SQLException{
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
+        String sql = "SELECT * FROM duan WHERE tenDuAn like concat('%',?,'%')";
+        PreparedStatement str = conn.prepareStatement(sql);
+        str.setString(1, name);
+        ResultSet rs = str.executeQuery();
+        while(rs.next()){
+            System.out.printf("ID: %d \tNAME: %s \tSTART: %s \tFINISH: %s \tMONEY: %f\n" ,
+                    rs.getInt("maDuAn") , rs.getString("tenDuAn") , rs.getDate("ngayBatDau") ,
+                    rs.getDate("ngayKetThuc"), rs.getDouble("tongkinhphi"));
+        }
     }
 
     /**
