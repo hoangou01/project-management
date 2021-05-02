@@ -45,9 +45,9 @@ public class main {
 //      a2.mysql();
 //  =============================== NHAN VIEN TRUONG ============================================
         NhanVien t1 = new NhanVienTruong(11, "hoang", "hoangou01@gmail.com", "nam", "2024-11-25", 1.5, "sp001");
-//      t1.mysql();
+//      t1.mysqlnvTruong();
         NhanVien t2 = new NhanVienTruong(12, "ha", "haou01@gmail.com", "nu", "2024-12-20", 1, "sp002");
-//      t2.mysql();
+//      t2.mysqlnvTruong();
 //  =============================== PHONG BAN ==================================================
         PhongBan  p1 = new PhongBan("sp001", t1);
 //      p1.mysql();
@@ -59,6 +59,14 @@ public class main {
         ql.themNhanVien(s2);
         ql.themNhanVien(s3);
         ql.themNhanVien(s4);
+        DanhSachDuAn qlda = new DanhSachDuAn();
+        System.out.println("HIEN DANG CO CAC DU AN:");
+        qlda.showDuAn();
+        System.out.println("\nNHAP MA DU AN BAN MUON XEM:");
+        int maDuAn;
+        maDuAn = in.nextInt();
+        System.out.printf("=======DANH SACH NHAN VIEN CO TRONG DU AN %d ========\n" , maDuAn);
+        qlda.showNhanVienDuAn(maDuAn);
 //       Class.forName("com.mysql.cj.jdbc.Driver");
 //         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
 //         
@@ -69,7 +77,7 @@ public class main {
             System.out.print("1.xem tat ca nhan vien!\n2.them,xoa,sua du an.\n3.xem nhan vien cua 1 du an.\n4.xem du an cua 1 nhan vien.\n5.tim kiem du an bang Name\n6.sap xep du an theo kinh phi dau tu\n7.tim kiem nhan vien bang ten or phong ban\n8.thoat\n==BANCHON:");
 
         } while (choose >= 1 && choose <= 7);
-        ql.showDsNhanVien();
+ //       ql.showDsNhanVien();
 
     }
 }

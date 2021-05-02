@@ -26,7 +26,9 @@ public class NhanVienTruong extends NhanVien {
 
     public NhanVienTruong(int maNhanVien, String tenNhanVien, String email, String gioiTinh, String Ngay, double heSo, String phongBan) throws ParseException, SQLException, ClassNotFoundException {
         super(maNhanVien, tenNhanVien, email, gioiTinh, heSo, phongBan);
-        this.ngayNhamChuc =  FORMAT.parse(Ngay);
+        this.ngayNhamChuc =  FORMAT.parse(Ngay);  
+    }
+    public void mysqlnvTruong() throws ClassNotFoundException, SQLException{
          java.util.Date date_NhamChuc = this.ngayNhamChuc;
          java.sql.Date sqlDate_NhamChuc = new java.sql.Date (date_NhamChuc.getTime());
 
@@ -35,10 +37,10 @@ public class NhanVienTruong extends NhanVien {
         System.out.println("connected");
         String sql = "INSERT INTO nvtruong VALUES(?,?,?,?,?,?,?)";
         PreparedStatement str = conn.prepareStatement(sql);
-        str.setInt(1, maNhanVien);
-        str.setString(2, tenNhanVien);
-        str.setString(3, email);
-        str.setString(4, gioiTinh);
+        str.setInt(1, this.getMaNhanVien());
+        str.setString(2, this.getTenNhanVien());
+        str.setString(3, this.getEmail());
+        str.setString(4, this.getGioiTinh());
         str.setDouble(5, this.tinhLuong());
         str.setDate(6, (java.sql.Date) sqlDate_NhamChuc);
         str.setString(7, this.layLoai());
@@ -48,7 +50,6 @@ public class NhanVienTruong extends NhanVien {
         str.close();
         conn.close();
     }
-    
     public String layLoai() {
         return "Nhan Vien Truong";
     }
