@@ -12,20 +12,20 @@ package com.mycompany.quanlyduan;
 public class LapTrinhVien extends NhanVien {
 
     private int soGioLamThem;
-
+    
     public LapTrinhVien(int maNhanVien, String tenNhanVien, String email, String gioiTinh ,int heSo, String phongBan , int gioLamThem) {
         super(maNhanVien, tenNhanVien, email, gioiTinh ,heSo , phongBan);
         this.soGioLamThem =  gioLamThem;
     }
 
+    @Override
     public String layLoai() {
         return "Lap Trinh Vien";
     }
 
-    
     @Override
     public double tinhLuong() {
-        return this.getLuongCoBan() + this.soGioLamThem * this.getLuongCoBan();
+        return this.luongCoBan + this.soGioLamThem * this.luongCoBan;
     }
 
     /**

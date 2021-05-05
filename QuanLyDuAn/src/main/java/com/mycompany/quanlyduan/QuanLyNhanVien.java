@@ -19,45 +19,89 @@ import java.util.List;
  * @author HP
  */
 public class QuanLyNhanVien {
+
     private List<NhanVien> dsNhanVien = new ArrayList<>();
-    public void showDsNhanVien() throws ClassNotFoundException, SQLException{
+
+    public void showDsNhanVien() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
         System.out.println("connected");
         Statement str = conn.createStatement();
-        ResultSet rs =  str.executeQuery("SELECT * FROM nhanvien");
-        while(rs.next()){
-            System.out.printf("-ID:%d\tName:%s\tEmail:%s \tSEX:%s \tPosition:%s",
-                    rs.getInt("id"),rs.getString("ten"),rs.getString("email"),
+        ResultSet rs = str.executeQuery("SELECT * FROM nhanvien");
+        while (rs.next()) {
+            System.out.printf("-ID:%d\tName:%s\t\tEmail:%s \t\tSEX:%s \t\tPosition:%s \t\tSALARY: %f",
+                    rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
                     rs.getString("gioitinh"),
-                    rs.getString("loainhanvien"));
+                    rs.getString("loainhanvien"),
+                    rs.getDouble("luong"));
             System.out.println();
         }
         str.close();
         conn.close();
     }
-    // updating
+
+    // done
     public void showDuanOfNhanVien(int maNhanVien) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
-        String sql = "SELECT da.* FROM duan da "
-                + "INNER JOIN duan_nhanvien danv ON da.maDuAn = danv.duan_id "
-                + "INNER JOIN nhanvien nv ON danv.nhanvien_id = nv.id "
-                + "WHERE nv.id = ?";
-        PreparedStatement str = conn.prepareStatement(sql);
-        str.setInt(1, maNhanVien);
-        ResultSet rs = str.executeQuery(); 
-        while (rs.next()) {
-            System.out.printf("ID : %d \tNAME : %s \t\tSTART : %s \tFINISH : %s \tMONEY : %f \n"
-                    , rs.getInt("maDuAn") , rs.getString("tenDuAn"), rs.getDate("ngayBatDau") , rs.getDate("ngayKetThuc") , rs.getDouble("tongkinhphi"));
-  
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
+            String sql = "SELECT da.* FROM duan da "
+                    + "INNER JOIN duan_nhanvien danv ON da.maDuAn = danv.duan_id "
+                    + "INNER JOIN nhanvien nv ON danv.nhanvien_id = nv.id "
+                    + "WHERE nv.id = ?";
+            try ( PreparedStatement str = conn.prepareStatement(sql)) {
+                str.setInt(1, maNhanVien);
+                ResultSet rs = str.executeQuery();
+                while (rs.next()) {
+                    System.out.printf("ID : %d \tNAME : %s \t\tSTART : %s \tFINISH : %s \tMONEY : %f \n",
+                             rs.getInt("maDuAn"), rs.getString("tenDuAn"),
+                             rs.getDate("ngayBatDau"), rs.getDate("ngayKetThuc"),
+                            rs.getDouble("tongkinhphi"));
+
+                }
+            }
         }
     }
-    public void themNhanVien(NhanVien d){
+
+    public void timKiemNhanVienByName(String name) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
+            String mysql = "SELECT * FROM nhanvien WHERE ten like concat ('%',?,'%')";
+            try ( PreparedStatement str = conn.prepareStatement(mysql)) {
+                str.setString(1, name);
+                ResultSet rs = str.executeQuery();
+                while (rs.next()) {
+                    System.out.printf("ID: %d \tNAME: %s \tEMAIL: %s \tSEX: %s \tPOSSION:%s \tSALARY: %f\n",
+                             rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
+                             rs.getString("gioitinh"), rs.getString("loainhanvien"),
+                             rs.getDouble("luong"));
+                }
+            }
+        }
+    }
+
+    public void timKiemNhanVienByPhongBan(String tenPhongBan) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
+            String mysql = "SELECT * FROM nhanvien WHERE pb_ten like concat ('%',?,'%')";
+            try ( PreparedStatement str = conn.prepareStatement(mysql)) {
+                str.setString(1, tenPhongBan);
+                ResultSet rs = str.executeQuery();
+                while (rs.next()) {
+                    System.out.printf("ID: %d \tNAME: %s \tEMAIL: %s \tSEX: %s \tPOSSION:%s \tSALARY: %f\n",
+                             rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
+                             rs.getString("gioitinh"), rs.getString("loainhanvien"),
+                             rs.getDouble("luong"));
+                }
+            }
+        }
+    }
+
+    public void themNhanVien(NhanVien d) {
         this.dsNhanVien.add(d);
     }
-    public void hienThiDs(){
-       this.dsNhanVien.forEach(x -> System.out.println(x));
+
+    public void hienThiDs() {
+        this.dsNhanVien.forEach(x -> System.out.println(x));
     }
 
     /**
@@ -73,5 +117,5 @@ public class QuanLyNhanVien {
     public void setDsNhanVien(List<NhanVien> dsNhanVien) {
         this.dsNhanVien = dsNhanVien;
     }
-    
+
 }

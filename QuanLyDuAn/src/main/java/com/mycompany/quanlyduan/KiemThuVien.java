@@ -26,7 +26,7 @@ public class KiemThuVien extends NhanVien {
 
     @Override
     public double tinhLuong() {
-        return this.getLuongCoBan() + this.getSoError() * getTienError();
+        return this.luongCoBan + this.soError * this.tienError;
     }
 
     /**

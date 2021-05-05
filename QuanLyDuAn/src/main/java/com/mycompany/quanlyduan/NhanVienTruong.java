@@ -21,7 +21,7 @@ import static java.util.Date.parse;
  */
 public class NhanVienTruong extends NhanVien {
 
-    private static SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private Date ngayNhamChuc;
 
     public NhanVienTruong(int maNhanVien, String tenNhanVien, String email, String gioiTinh, String Ngay, double heSo, String phongBan) throws ParseException, SQLException, ClassNotFoundException {
@@ -33,27 +33,27 @@ public class NhanVienTruong extends NhanVien {
          java.sql.Date sqlDate_NhamChuc = new java.sql.Date (date_NhamChuc.getTime());
 
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
-        System.out.println("connected");
-        String sql = "INSERT INTO nvtruong VALUES(?,?,?,?,?,?,?)";
-        PreparedStatement str = conn.prepareStatement(sql);
-        str.setInt(1, this.getMaNhanVien());
-        str.setString(2, this.getTenNhanVien());
-        str.setString(3, this.getEmail());
-        str.setString(4, this.getGioiTinh());
-        str.setDouble(5, this.tinhLuong());
-        str.setDate(6, (java.sql.Date) sqlDate_NhamChuc);
-        str.setString(7, this.layLoai());
-        str.execute();
-        
-
-        str.close();
-        conn.close();
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
+            System.out.println("connected");
+            String sql = "INSERT INTO nvtruong VALUES(?,?,?,?,?,?,?)";
+             try (PreparedStatement str = conn.prepareStatement(sql)) {
+                 str.setInt(1, this.getMaNhanVien());
+                 str.setString(2, this.getTenNhanVien());
+                 str.setString(3, this.getEmail());
+                 str.setString(4, this.getGioiTinh());
+                 str.setDouble(5, this.tinhLuong());
+                 str.setDate(6, (java.sql.Date) sqlDate_NhamChuc);
+                 str.setString(7, this.layLoai());
+                 str.execute();
+             }
+        }
     }
+    @Override
     public String layLoai() {
         return "Nhan Vien Truong";
     }
 
+    @Override
     public double tinhLuong() {
         return super.tinhLuong();
     }
@@ -66,7 +66,7 @@ public class NhanVienTruong extends NhanVien {
     }
 
     /**
-     * @param aFORMAT the FORMAT to set
+     * @param FORMAT
      */
     public static void setFORMAT(SimpleDateFormat FORMAT) {
         FORMAT = FORMAT;

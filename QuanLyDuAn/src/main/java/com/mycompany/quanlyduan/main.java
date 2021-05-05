@@ -23,32 +23,36 @@ public class main {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException, ParseException {
         Scanner in = new Scanner(System.in);
-// ===========================  NHAN VIEN    =====================================    
+// ================================  NHAN VIEN    =====================================    
         NhanVien s1 = new LapTrinhVien(1, "huy", "huyou01@gmail.com", "nam", 2, "sp002", 4);
 //      s1.mysql;
         NhanVien s2 = new NhanVien(2, "huong", "huongou01@gmail.com", "nu", 3, "sp001");
 //      s2.mysql();
         NhanVien s3 = new LapTrinhVien(3, "huy", "huyou01@gmail.com", "nam", 2, "sp001", 3);
 //      s3.mysql();
-        NhanVien s4 = new ThietKeVien(4, "thuy", "thuyxinh01@gmai.com", "nu", 2, "sp002", 5000000);
+        NhanVien s4 = new ThietKeVien(4, "thuy", "thuyou01@gmai.com", "nu", 2, "sp002", 5000000);
 //      s4.mysql();
         NhanVien s5 = new KiemThuVien(5, "romeo", "romeo01@gmail.com", "nam", 3, "sp002", 10);
- //     s5.mysql();
+//     s5.mysql();
         NhanVien s6 = new ThietKeVien(6, "thanh", "thanh01@gmai.com", "nam", 2, "sp002", 3000000);
-        NhanVien s7 = new NhanVien(7, "justin biber", "biber01@gmail.com", "nam", 2, "sp001");
+//      s6.mysql();
+        NhanVien s7 = new NhanVien(7, "justin", "biber01@gmail.com", "nam", 2, "sp001");
+//     s7.mysql();
         NhanVien s8 = new LapTrinhVien(8, "hung", "hungou01@gmail.com", "nam", 2, "sp001", 4);
-
-//   =============================== DU AN =======================================
+//       s8.mysql();
+//   ================================ DU AN =======================================
         DuAn a1 = new DuAn(112, "cong trinh landmark81", "2018-03-12", "2020-01-24", 250000000, s2);
 //      a1.mysql();
         DuAn a2 = new DuAn(225, "khu do thi sala", "2019-08-25", "2022-03-30", 50000000, s4);
 //      a2.mysql();
-//  =============================== NHAN VIEN TRUONG ============================================
+//  ================================ NHAN VIEN TRUONG ============================================
         NhanVien t1 = new NhanVienTruong(11, "hoang", "hoangou01@gmail.com", "nam", "2024-11-25", 1.5, "sp001");
+//        t1.mysql();
 //      t1.mysqlnvTruong();
         NhanVien t2 = new NhanVienTruong(12, "ha", "haou01@gmail.com", "nu", "2024-12-20", 1, "sp002");
+//        t2.mysql();
 //      t2.mysqlnvTruong();
-//  =============================== PHONG BAN ==================================================
+//  ================================= PHONG BAN ==================================================
         PhongBan  p1 = new PhongBan("sp001", t1);
 //      p1.mysql();
         PhongBan  p2 = new PhongBan("sp002", t2);
@@ -59,33 +63,116 @@ public class main {
         ql.themNhanVien(s2);
         ql.themNhanVien(s3);
         ql.themNhanVien(s4);
+        ql.themNhanVien(s5);
+        ql.themNhanVien(s6);
+        ql.themNhanVien(s7);
+        ql.themNhanVien(s8);
         DanhSachDuAn qlda = new DanhSachDuAn();
-        System.out.println("HIEN DANG CO CAC DU AN:");
-        qlda.showDuAn();
-        System.out.println("\nNHAP MA DU AN BAN MUON XEM:");
-        int maDuAn;
-        maDuAn = in.nextInt();
-        System.out.printf("=======DANH SACH NHAN VIEN CO TRONG DU AN %d ========\n" , maDuAn);
-        qlda.showNhanVienDuAn(maDuAn);
-//       Class.forName("com.mysql.cj.jdbc.Driver");
-//         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
-//         
-//         conn.close();
-        System.out.println("NHAP MA NHAN VIEN BAN MUON XEM :");
-        int maNhanVien = in.nextInt();
-        System.out.printf("DANH SACH DU AN NHAN VIEN %d DANG LAM \n"  , maNhanVien);
-        ql.showDuanOfNhanVien(maNhanVien);
-        System.out.println("NHAP TEN DU AN BAN MUON TIM :");
-        String name;
-        name = in.next();
-        qlda.timKiemDuAn(name);
-        int choose = 8;
+ 
+        int choose;
         do {
-            System.out.println("===========MENU=========");
-            System.out.print("1.xem tat ca nhan vien!\n2.them,xoa,sua du an.\n3.xem nhan vien cua 1 du an.\n4.xem du an cua 1 nhan vien.\n5.tim kiem du an bang Name\n6.sap xep du an theo kinh phi dau tu\n7.tim kiem nhan vien bang ten or phong ban\n8.thoat\n==BANCHON:");
+            System.out.println("=================================MENU=================================");
+            System.out.print("1.xem tat ca nhan vien!\n2.them,xoa,sua du an.\n3.xem nhan vien cua 1 du an."
+                    + "\n4.xem du an cua 1 nhan vien.\n5.tim kiem du an bang Name\n6.sap xep du an theo kinh phi dau tu"
+                    + "\n7.tim kiem nhan vien bang ten or phong ban\n8.thoat\n====================================================================\nBANCHON:\n");
+            choose = in.nextInt();
+            if(choose <1 && choose >8){
+                System.out.println("VUI LONG CHON TU 1 DEN 8");
+            }
+            switch(choose){
+                case 1:
+                    ql.showDsNhanVien();
+                    break;
+                case 2:
+                    int choose1;
+                    do{
+                        System.out.println("\n1.them 1 du an\n2.xoa 1 du an.\n3.sua du an\n4.THOAT\n==BANCHON:");
+                        choose1 = in.nextInt();
+                        switch(choose1){
+                            case 1:
+                                System.out.println("NHAP THONG TIN 1 DU AN BAN CAN THEM");
+                                System.out.println("nhap Ma du an :");
+                                int maDuAn = in.nextInt();
+                                System.out.println("\nnhap ten du an :");
+                                String tenDuAn = in.next();
+                                in.nextLine();
+                                System.out.println("nnhap ngay bat dau :");
+                                String dateStart = in.next();                               
+                                System.out.println("nhap ket thuc :");
+                                String dateFinish = in.next();                        
+                                System.out.println("nhap tong kinh phi :");
+                                Double tongKinhPhi = in.nextDouble();
+                                System.out.println("nhap ma nhan vien quan ly :");
+                                int nvQuanLy = in.nextInt();
+                                qlda.themDuAn(maDuAn , tenDuAn , dateStart , dateFinish , tongKinhPhi,nvQuanLy);
+                                System.out.println("=================CAP NHAT DU AN ================");
+                                qlda.showDuAn();
+                                break;
+                            case 2:
+                                System.out.println("NHAP MA DU AN BAN MUON XOA");
+                                int deleteDuAn = in.nextInt();
+                                qlda.xoaDuAn(deleteDuAn);
+                                System.out.println("=================CAP NHAT DU AN ================");
+                                qlda.showDuAn();
+                                break;
+                        }
+                      }while(choose >=1 && choose <=4);
+                    break;
+                case 3:
+                    System.out.println("HIEN DANG CO CAC DU AN:");
+                    qlda.showDuAn();
+                    System.out.println("\nNHAP MA DU AN BAN MUON XEM:");
+                    int maDuAn;
+                    maDuAn = in.nextInt();
+                    System.out.printf("===============DANH SACH NHAN VIEN CO TRONG DU AN %d ================\n" , maDuAn);
+                    qlda.showNhanVienOfDuAn(maDuAn);
+                    break;
+                case 4:
+                    System.out.println("NHAP MA NHAN VIEN BAN MUON XEM :");
+                    int maNhanVien = in.nextInt();
+                    System.out.printf("DANH SACH DU AN NHAN VIEN %d DANG LAM \n"  , maNhanVien);
+                    ql.showDuanOfNhanVien(maNhanVien);
+                    break;
+                case 5:
+                    System.out.println("NHAP TEN DU AN BAN MUON TIM :");
+                    String name;
+                    name = in.next();
+                    qlda.timKiemDuAn(name);
+                case 6:
+                    System.out.println("==============KET QUA SAP XEP DU AN THEO KINH PHI====================");
+                    qlda.sortDuAnByKinhPhi();
+                    break;
+                case 7:
+                    int choose2;
+                    do{
+                        System.out.println("1.tim kiem nhan vien bang ten\n2.tim kiem nhan vien bang phong ban\nBANCHON:");
+                        choose2 = in.nextInt();
+                        switch(choose2){
+                        
+                            case 1:
+                                System.out.println("NHAP TEN NHAN VIEN BAN MUON TIM:");
+                                String employeeName;
+                                employeeName = in.next();
+                                System.out.printf("====KET QUA TIM KIEM NHAN VIEN CO TEN %s ====\n",employeeName);
+                                ql.timKiemNhanVienByName(employeeName);
+                                break;
+                            case 2:
+                                System.out.println("NHAP TEN PHONG BAN CUA NHAN VIEN MA BAN MUON TIM :");
+                                String namePhongBan;
+                                namePhongBan = in.next();
+                                System.out.printf("====KET QUA TIM KIEM NHAN VIEN CO TEN PHONG BAN %s =====\n",namePhongBan);
+                                ql.timKiemNhanVienByPhongBan(namePhongBan);
+                                break;
+                                
+                    }
+                    }while(choose2 == 1 || choose2 ==2);
+                    break;
+                default:
+                    System.out.println("GOOD BYE SEE YOU LATER!");      
+            }
 
         } while (choose >= 1 && choose <= 7);
- //       ql.showDsNhanVien();
+        
 
     }
 }

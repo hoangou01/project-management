@@ -8,9 +8,7 @@ package com.mycompany.quanlyduan;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 /**
@@ -19,7 +17,7 @@ import java.util.List;
  */
 public class NhanVien {
 
-    private static double luongCoBan = 10000000;
+    protected static double luongCoBan = 10000000;
     private int maNhanVien;
     private String tenNhanVien;
     private String email;
@@ -29,11 +27,11 @@ public class NhanVien {
     private String phongBan;
 
     public String layLoai() {
-        return "nhanvienthuong";
+        return "nhan vien thuong";
     }
 
     public double tinhLuong() {
-        return this.getLuongCoBan() * this.getHeSo();
+        return this.luongCoBan * this.heSo;
     }
 
     @Override

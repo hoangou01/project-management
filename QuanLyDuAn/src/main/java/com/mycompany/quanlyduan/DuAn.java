@@ -24,8 +24,8 @@ import java.util.Scanner;
  */
 public class DuAn {
 
-    private static SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-    private static Scanner in = new Scanner(System.in);
+    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final Scanner in = new Scanner(System.in);
     private int maDuAn;
     private String tenDuAn;
     private Date ngayBatDau;

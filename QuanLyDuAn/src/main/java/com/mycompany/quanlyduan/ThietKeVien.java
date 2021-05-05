@@ -18,13 +18,14 @@ public class ThietKeVien extends NhanVien {
         this.bonus = bonus;
     }
 
+    @Override
     public String layLoai() {
         return "Thiet Ke Vien";
     }
 
     @Override
     public double tinhLuong() {
-        return this.getLuongCoBan() + this.getBonus();
+        return this.luongCoBan + this.bonus;
     }
 
     /**
