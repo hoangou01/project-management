@@ -22,7 +22,7 @@ public class QuanLyNhanVien {
 
     private List<NhanVien> dsNhanVien = new ArrayList<>();
 
-    public void showDsNhanVien() throws ClassNotFoundException, SQLException {
+    public void showListOfStaff() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
         System.out.println("connected");
@@ -41,7 +41,7 @@ public class QuanLyNhanVien {
     }
 
     // done
-    public void showDuanOfNhanVien(int maNhanVien) throws ClassNotFoundException, SQLException {
+    public void showProjectsOfStaff(int maNhanVien) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
             String sql = "SELECT da.* FROM duan da "
@@ -62,7 +62,7 @@ public class QuanLyNhanVien {
         }
     }
 
-    public void timKiemNhanVienByName(String name) throws ClassNotFoundException, SQLException {
+    public void findStaffByName(String name) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
             String mysql = "SELECT * FROM nhanvien WHERE ten like concat ('%',?,'%')";
@@ -79,7 +79,7 @@ public class QuanLyNhanVien {
         }
     }
 
-    public void timKiemNhanVienByPhongBan(String tenPhongBan) throws ClassNotFoundException, SQLException {
+    public void findStaffByDepartment(String tenPhongBan) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
             String mysql = "SELECT * FROM nhanvien WHERE pb_ten like concat ('%',?,'%')";

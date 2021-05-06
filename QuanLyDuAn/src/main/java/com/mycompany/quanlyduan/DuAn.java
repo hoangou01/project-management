@@ -43,12 +43,11 @@ public class DuAn {
         this.truongDuAn = nv;
     }
 
-    public void mysql() throws ClassNotFoundException, SQLException {
+    public void insertProject() throws ClassNotFoundException, SQLException {
         java.util.Date date_start = this.ngayBatDau;
         java.sql.Date sqlDate_start = new java.sql.Date(date_start.getTime());
         java.util.Date date_finish = this.ngayBatDau;
         java.sql.Date sqlDate_finish = new java.sql.Date(date_finish.getTime());
-        
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
         System.out.println("connected");

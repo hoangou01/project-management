@@ -29,8 +29,8 @@ public class DanhSachDuAn {
     private static final Scanner in = new Scanner(System.in);
     private List<DuAn> dsDuAn = new ArrayList<>();
 
-    // updating.....   
-    public void themDuAn(int maDuAn , String tenDuAn , String dateStart , String dateFinish , double tongKinhPhi , int manvQuanLy) throws ParseException, ClassNotFoundException, SQLException {
+    //done  
+    public void insertProject(int maDuAn , String tenDuAn , String dateStart , String dateFinish , double tongKinhPhi , int manvQuanLy) throws ParseException, ClassNotFoundException, SQLException {
         
         java.util.Date ngayBatDau =   FORMAT.parse(dateStart);
         java.util.Date ngayKetThuc =  FORMAT.parse(dateFinish);
@@ -49,7 +49,8 @@ public class DanhSachDuAn {
         str.setInt(6, manvQuanLy);
         str.execute();
     }
-    public void xoaDuAn(int maDuAn) throws SQLException, ClassNotFoundException{
+    //done
+    public void deleteProject(int maDuAn) throws SQLException, ClassNotFoundException{
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
             String sql = " DELETE FROM duan WHERE maDuAn = ?";
@@ -59,7 +60,7 @@ public class DanhSachDuAn {
         }
     }
 //done
-    public void showDuAn() throws ClassNotFoundException, SQLException {
+    public void showListOfProject() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
             String sql = " SELECT * from duan";
@@ -77,7 +78,7 @@ public class DanhSachDuAn {
         }
     }
     //done
-    public void showNhanVienOfDuAn(int maDuAn) throws ClassNotFoundException, SQLException {
+    public void showStaffsOfProject(int maDuAn) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
             String sql = "SELECT nv.* FROM nhanvien nv "
@@ -98,7 +99,7 @@ public class DanhSachDuAn {
         }
     }
 //done
-    public void timKiemDuAn(String name) throws ClassNotFoundException, SQLException {
+    public void findProjectByName(String name) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
             String sql = "SELECT * FROM duan WHERE tenDuAn like concat('%',?,'%')";
@@ -114,7 +115,7 @@ public class DanhSachDuAn {
         }
     }
 //done
-    public void sortDuAnByKinhPhi() throws ClassNotFoundException, SQLException {
+    public void sortProjectByExpense() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
         String sql = "SELECT * FROM duan ORDER BY tongkinhphi ASC";
