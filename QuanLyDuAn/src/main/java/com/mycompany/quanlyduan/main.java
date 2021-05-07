@@ -74,7 +74,7 @@ public class main {
         int choose;
         do {
             System.out.println("=================================MENU=================================");
-            System.out.print("1.xem tat ca nhan vien!\n" + "2.them,xoa,sua du an.\n" + "3.xem nhan vien cua 1 du an.\n" + "4.xem du an cua 1 nhan vien.\n" + "5.tim kiem du an bang Name\n" + "6.sap xep du an theo kinh phi dau tu\n" + "7.tim kiem nhan vien bang ten or phong ban\n" + "8.thoat\n" + "====================================================================\n" + "BANCHON:\n");
+            System.out.print("1.xem tat ca nhan vien!\n" + "2.them,xoa,sua du an.\n" + "3.xem nhan vien cua 1 du an.\n" + "4.xem du an cua 1 nhan vien.\n" + "5.tim kiem du an bang Name\n" + "6.sap xep du an theo kinh phi dau tu\n" + "7.tim kiem nhan vien bang ten or phong ban\n" + "8.gan nhan vien cho du an\n9.thoat\n" + "====================================================================\n" + "BANCHON:\n");
             choose = in.nextInt();
             if(choose <1 && choose >8){
                 System.out.println("VUI LONG CHON TU 1 DEN 8");
@@ -124,13 +124,13 @@ public class main {
                     System.out.println("\nNHAP MA DU AN BAN MUON XEM:");
                     int maDuAn;
                     maDuAn = in.nextInt();
-                    System.out.printf("===============DANH SACH NHAN VIEN CO TRONG DU AN %d ================\n" , maDuAn);
+                    System.out.printf("=============== DANH SACH NHAN VIEN CO TRONG DU AN %d ================\n" , maDuAn);
                     qlda.showStaffsOfProject(maDuAn);
                     break;
                 case 4:
                     System.out.println("NHAP MA NHAN VIEN BAN MUON XEM :");
                     int maNhanVien = in.nextInt();
-                    System.out.printf("DANH SACH DU AN NHAN VIEN %d DANG LAM \n"  , maNhanVien);
+                    System.out.printf("=============== DANH SACH DU AN NHAN VIEN %d DANG LAM ===================\n"  , maNhanVien);
                     ql.showProjectsOfStaff(maNhanVien);
                     break;
                 case 5:
@@ -138,6 +138,7 @@ public class main {
                     String name;
                     name = in.next();
                     qlda.findProjectByName(name);
+                    break;
                 case 6:
                     System.out.println("==============KET QUA SAP XEP DU AN THEO KINH PHI====================");
                     qlda.sortProjectByExpense();
@@ -166,6 +167,15 @@ public class main {
                                 
                     }
                     }while(choose2 == 1 || choose2 ==2);
+                    break;
+                case 8:
+                    System.out.println("============= DANH SACH NHAN VIEN HIEN CO ==============");
+                    ql.showListOfStaff();
+                    System.out.println("============= DANH SAHC DU AN HIEN CO ===================");
+                    qlda.showListOfProject();
+                    System.out.println("NHAP MA NHAN VIEN BAN MUON THEM ");
+                    int maNhanVienThem = in.nextInt();
+                    System.out.printf("NHAP MA DU AN BAN MUON THEM NHAN VIEN CO MA %d : " , maNhanVienThem);
                     break;
                 default:
                     System.out.println("GOOD BYE SEE YOU LATER!");      

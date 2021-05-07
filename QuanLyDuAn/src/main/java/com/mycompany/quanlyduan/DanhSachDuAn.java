@@ -29,7 +29,7 @@ public class DanhSachDuAn {
     private static final Scanner in = new Scanner(System.in);
     private List<DuAn> dsDuAn = new ArrayList<>();
 
-    //done  
+    //them du an bang cach nhap tung du lieu  
     public void insertProject(int maDuAn , String tenDuAn , String dateStart , String dateFinish , double tongKinhPhi , int manvQuanLy) throws ParseException, ClassNotFoundException, SQLException {
         
         java.util.Date ngayBatDau =   FORMAT.parse(dateStart);
@@ -49,7 +49,7 @@ public class DanhSachDuAn {
         str.setInt(6, manvQuanLy);
         str.execute();
     }
-    //done
+    // xoa du an 
     public void deleteProject(int maDuAn) throws SQLException, ClassNotFoundException{
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
@@ -59,17 +59,20 @@ public class DanhSachDuAn {
             str.executeUpdate();
         }
     }
-//done
+//xuat danh sach du an hien dang co
+
     public void showListOfProject() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
-            String sql = " SELECT * from duan";
+            String sql = " SELECT maDuAn, tenDuAn, DATE_FORMAT(ngayBatDau , '%d-%m-%y') AS dateStart"
+                    + " , DATE_FORMAT(ngayKetThuc , '%d-%m-%y') AS dateFinish ,"
+                    + " tongKinhPhi , id_nvQuanLy from duan";
             try (PreparedStatement str = conn.prepareStatement(sql)) {
                 ResultSet rs = str.executeQuery();
                 while (rs.next()) {
                     System.out.printf("-ID: %d \tNAME: %s \tDateStart: %s \tDateFinish: %s \tEXPENSE: %f \tID_managementStaff: %d"
                             , rs.getInt("maDuAn"),rs.getString("tenDuAn")
-                            ,rs.getDate("ngayBatDau"),rs.getDate("ngayKetThuc")
+                            ,rs.getString("dateStart"),rs.getString("dateFinish")
                             ,rs.getDouble("tongkinhphi")
                             ,rs.getInt("id_nvQuanLy"));
                     System.out.println("");
@@ -77,7 +80,7 @@ public class DanhSachDuAn {
             }
         }
     }
-    //done
+    //xuat danh sach nhan vien lam trong du an
     public void showStaffsOfProject(int maDuAn) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
@@ -88,17 +91,22 @@ public class DanhSachDuAn {
             try (PreparedStatement str = conn.prepareStatement(sql)) {
                 str.setInt(1, maDuAn);
                 ResultSet rs = str.executeQuery();
-                while (rs.next()) {
-                    System.out.printf("-ID:%d\tName:%s\tEmail:%s \tSEX:%s \t\tPosition:%s",
+                if (!rs.next()){
+                    System.out.printf("KHONG TIM THAY NHAN VIEN NAO LAM TRONG DU AN %d \n" , maDuAn);
+                }
+                else{
+                    do{
+                        System.out.printf("-ID:%d\tName:%s\tEmail:%s \tSEX:%s \t\tPosition:%s",
                             rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
                             rs.getString("gioitinh"),
                             rs.getString("loainhanvien"));
                     System.out.println();
+                    }while(rs.next());
                 }
             }
         }
     }
-//done
+//tim kiem du an bang ten
     public void findProjectByName(String name) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
@@ -106,15 +114,21 @@ public class DanhSachDuAn {
             try (PreparedStatement str = conn.prepareStatement(sql)) {
                 str.setString(1, name);
                 ResultSet rs = str.executeQuery();
-                while (rs.next()) {
-                    System.out.printf("ID: %d \tNAME: %s \tSTART: %s \tFINISH: %s \tMONEY: %f\n",
+                if(!rs.next()){
+                    System.out.println("KHONG TIM THAY KET QUA NAO");
+                }
+                else{
+                    do{
+                        System.out.printf("ID: %d \tNAME: %s \tSTART: %s \tFINISH: %s \tMONEY: %f\n",
                             rs.getInt("maDuAn"), rs.getString("tenDuAn"), rs.getDate("ngayBatDau"),
                             rs.getDate("ngayKetThuc"), rs.getDouble("tongkinhphi"));
+                    }while (rs.next());
+                }
+          
                 }
             }
         }
-    }
-//done
+// sap xep du an theo kinh phi
     public void sortProjectByExpense() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");

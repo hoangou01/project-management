@@ -42,7 +42,7 @@ public class DuAn {
         this.tongKinhPhi = tongKinhPhi;
         this.truongDuAn = nv;
     }
-
+// them 1 du an bang cach duoc doi tuong du an goi phuong thuc
     public void insertProject() throws ClassNotFoundException, SQLException {
         java.util.Date date_start = this.ngayBatDau;
         java.sql.Date sqlDate_start = new java.sql.Date(date_start.getTime());

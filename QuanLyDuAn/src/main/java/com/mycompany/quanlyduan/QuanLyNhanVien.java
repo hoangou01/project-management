@@ -21,7 +21,7 @@ import java.util.List;
 public class QuanLyNhanVien {
 
     private List<NhanVien> dsNhanVien = new ArrayList<>();
-
+// xem danh sach nhan vien
     public void showListOfStaff() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
@@ -40,7 +40,7 @@ public class QuanLyNhanVien {
         conn.close();
     }
 
-    // done
+    // hien thi du an cua 1 nhan vien
     public void showProjectsOfStaff(int maNhanVien) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
@@ -51,17 +51,21 @@ public class QuanLyNhanVien {
             try ( PreparedStatement str = conn.prepareStatement(sql)) {
                 str.setInt(1, maNhanVien);
                 ResultSet rs = str.executeQuery();
-                while (rs.next()) {
-                    System.out.printf("ID : %d \tNAME : %s \t\tSTART : %s \tFINISH : %s \tMONEY : %f \n",
+               if (!rs.next()){
+                   System.out.println("KHONG CO NHAN VIEN %d TRONG CONG TY");
+               }
+               else{
+                   do{
+                       System.out.printf("ID : %d \tNAME : %s \t\tSTART : %s \tFINISH : %s \tMONEY : %f \n",
                              rs.getInt("maDuAn"), rs.getString("tenDuAn"),
                              rs.getDate("ngayBatDau"), rs.getDate("ngayKetThuc"),
                             rs.getDouble("tongkinhphi"));
-
-                }
+                   }while(rs.next());
+               }
             }
         }
     }
-
+// tim kiem nhan vien bang ten
     public void findStaffByName(String name) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
@@ -69,16 +73,21 @@ public class QuanLyNhanVien {
             try ( PreparedStatement str = conn.prepareStatement(mysql)) {
                 str.setString(1, name);
                 ResultSet rs = str.executeQuery();
-                while (rs.next()) {
-                    System.out.printf("ID: %d \tNAME: %s \tEMAIL: %s \tSEX: %s \tPOSSION:%s \tSALARY: %f\n",
+                if (!rs.next()){
+                    System.out.printf("KHONG CO NHAN VIEN NAO TEN %s \n" , name);
+                }
+                else{
+                    do{
+                        System.out.printf("ID: %d \tNAME: %s \tEMAIL: %s \tSEX: %s \tPOSSION:%s \tSALARY: %f\n",
                              rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
                              rs.getString("gioitinh"), rs.getString("loainhanvien"),
                              rs.getDouble("luong"));
+                    }while(rs.next());
                 }
             }
         }
     }
-
+// tim kiem nhan vien bang ten phong 
     public void findStaffByDepartment(String tenPhongBan) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
@@ -86,15 +95,21 @@ public class QuanLyNhanVien {
             try ( PreparedStatement str = conn.prepareStatement(mysql)) {
                 str.setString(1, tenPhongBan);
                 ResultSet rs = str.executeQuery();
-                while (rs.next()) {
-                    System.out.printf("ID: %d \tNAME: %s \tEMAIL: %s \tSEX: %s \tPOSSION:%s \tSALARY: %f\n",
+               if (!rs.next()){
+                   System.out.printf("KHONG CO NHAN VIEN NAO THUOC PHONG BAN %s \n" , tenPhongBan);
+               }
+               else{
+                   do{
+                       System.out.printf("ID: %d \tNAME: %s \tEMAIL: %s \tSEX: %s \tPOSSION:%s \tSALARY: %f\n",
                              rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
                              rs.getString("gioitinh"), rs.getString("loainhanvien"),
                              rs.getDouble("luong"));
-                }
+                   }while(rs.next());
+               }
             }
         }
     }
+    
 
     public void themNhanVien(NhanVien d) {
         this.dsNhanVien.add(d);
