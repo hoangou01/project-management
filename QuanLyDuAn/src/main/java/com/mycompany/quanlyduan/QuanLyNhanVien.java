@@ -55,6 +55,7 @@ public class QuanLyNhanVien {
                    System.out.println("KHONG CO NHAN VIEN %d TRONG CONG TY");
                }
                else{
+                   System.out.printf("----------------- DANH SACH DU AN NHAN VIEN %d DANG LAM -----------------\n"  , maNhanVien);
                    do{
                        System.out.printf("ID : %d \tNAME : %s \t\tSTART : %s \tFINISH : %s \tMONEY : %f \tID_MANAGER : %d\n",
                              rs.getInt("maDuAn"), rs.getString("tenDuAn"),
@@ -96,9 +97,10 @@ public class QuanLyNhanVien {
                 str.setString(1, tenPhongBan);
                 ResultSet rs = str.executeQuery();
                if (!rs.next()){
-                   System.out.printf("KHONG CO NHAN VIEN NAO THUOC PHONG BAN %s \n" , tenPhongBan);
+                   System.out.printf("KHONG CO PHONG BAN %s TRONG CONG TY\n" , tenPhongBan);
                }
                else{
+                   System.out.printf("------- KET QUA TIM KIEM NHAN VIEN CO TEN PHONG BAN %s ------------\n", tenPhongBan);
                    do{
                        System.out.printf("ID: %d \tNAME: %s \tEMAIL: %s \tSEX: %s \tPOSSION:%s \tSALARY: %f\n",
                              rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
