@@ -28,7 +28,14 @@ public class NhanVienTruong extends NhanVien {
         super(maNhanVien, tenNhanVien, email, gioiTinh, heSo, phongBan);
         this.ngayNhamChuc =  FORMAT.parse(Ngay);  
     }
-    public void insertManager() throws ClassNotFoundException, SQLException{
+
+    /**
+     *
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    @Override
+    public void mysqlnvTruong() throws ClassNotFoundException, SQLException{
          java.util.Date date_NhamChuc = this.ngayNhamChuc;
          java.sql.Date sqlDate_NhamChuc = new java.sql.Date (date_NhamChuc.getTime());
 

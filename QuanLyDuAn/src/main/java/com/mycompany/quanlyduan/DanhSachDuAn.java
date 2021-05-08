@@ -29,6 +29,9 @@ public class DanhSachDuAn {
     private static final Scanner in = new Scanner(System.in);
     private List<DuAn> dsDuAn = new ArrayList<>();
 
+    
+    
+
     //them du an bang cach nhap tung du lieu  
     public void insertProject(int maDuAn , String tenDuAn , String dateStart , String dateFinish , double tongKinhPhi , int manvQuanLy) throws ParseException, ClassNotFoundException, SQLException {
         
@@ -56,8 +59,20 @@ public class DanhSachDuAn {
             String sql = " DELETE FROM duan WHERE maDuAn = ?";
             PreparedStatement str = conn.prepareStatement(sql);
             str.setInt(1, maDuAn);
-            str.executeUpdate();
+             int dem = str.executeUpdate();
+            if(dem != 0){
+                System.out.printf("DA XOA DU AN %d\n" , maDuAn);
+                System.out.println("=================CAP NHAT DU AN ================");
+                this.showListOfProject();
+            }
+            else{
+                System.out.printf("KHONG CO DU AN %d DE XOA!\n" , maDuAn);
+            }
+            
+            str.close();
+            str.close();
         }
+        
     }
 //xuat danh sach du an hien dang co
 
@@ -77,7 +92,9 @@ public class DanhSachDuAn {
                             ,rs.getInt("id_nvQuanLy"));
                     System.out.println("");
                 }
+                str.close();
             }
+            conn.close();
         }
     }
     //xuat danh sach nhan vien lam trong du an
@@ -96,21 +113,23 @@ public class DanhSachDuAn {
                 }
                 else{
                     do{
-                        System.out.printf("-ID:%d\tName:%s\tEmail:%s \tSEX:%s \t\tPosition:%s",
+                        System.out.printf("-ID:%d\tName:%s\tEmail:%s \tSEX:%s \t\tPosition:%s \t\tSALARY :%f \n",
                             rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
                             rs.getString("gioitinh"),
-                            rs.getString("loainhanvien"));
+                            rs.getString("loainhanvien"),rs.getDouble("luong"));
                     System.out.println();
                     }while(rs.next());
                 }
+                str.close();
             }
+            conn.close();
         }
     }
 //tim kiem du an bang ten
     public void findProjectByName(String name) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
-            String sql = "SELECT * FROM duan WHERE tenDuAn like concat('%',?,'%')";
+            String sql = "SELECT maDuAn ,tenDuAn ,DATE_FORMAT(ngayBatDau , '%d-%m-%y') AS dateStart , DATE_FORMAT(ngayKetThuc ,'%d-%m-%y') AS dateFinish , tongkinhphi , id_nvQuanLy FROM duan WHERE tenDuAn like concat('%',?,'%')";
             try (PreparedStatement str = conn.prepareStatement(sql)) {
                 str.setString(1, name);
                 ResultSet rs = str.executeQuery();
@@ -119,29 +138,58 @@ public class DanhSachDuAn {
                 }
                 else{
                     do{
-                        System.out.printf("ID: %d \tNAME: %s \tSTART: %s \tFINISH: %s \tMONEY: %f\n",
-                            rs.getInt("maDuAn"), rs.getString("tenDuAn"), rs.getDate("ngayBatDau"),
-                            rs.getDate("ngayKetThuc"), rs.getDouble("tongkinhphi"));
+                        System.out.printf("ID: %d \tNAME: %s \tSTART: %s \tFINISH: %s \tMONEY: %f \tID_MANAGER: %d\n",
+                            rs.getInt("maDuAn"), rs.getString("tenDuAn"), rs.getString("dateStart"),
+                            rs.getString("dateFinish"), rs.getDouble("tongkinhphi"),rs.getInt("id_nvQuanLy"));
                     }while (rs.next());
                 }
-          
+               str.close();
+               
                 }
+            conn.close();
             }
         }
 // sap xep du an theo kinh phi
     public void sortProjectByExpense() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
-        String sql = "SELECT * FROM duan ORDER BY tongkinhphi ASC";
-        PreparedStatement str = conn.prepareStatement(sql);
-        ResultSet rs = str.executeQuery();
-        while (rs.next()) {
-            System.out.printf("ID: %d \tNAME: %s \tSTART: %s \tFINISH: %s \tMONEY: %f\n",
-                    rs.getInt("maDuAn"), rs.getString("tenDuAn"), rs.getDate("ngayBatDau"),
-                    rs.getDate("ngayKetThuc"), rs.getDouble("tongkinhphi"));
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
+            String sql = "SELECT maDuAn ,tenDuAn ,DATE_FORMAT(ngayBatDau , '%d-%m-%y') AS dateStart"
+                    + " , DATE_FORMAT(ngayKetThuc ,'%d-%m-%y') AS dateFinish "
+                    + ", tongkinhphi , id_nvQuanLy FROM duan ORDER BY tongkinhphi ASC";
+            try (PreparedStatement str = conn.prepareStatement(sql)) {
+                ResultSet rs = str.executeQuery();
+                while (rs.next()) {
+                    System.out.printf("ID: %d \tNAME: %s \tSTART: %s \tFINISH: %s \tMONEY: %f \tID_MANAGER: %d\n",
+                            rs.getInt("maDuAn"), rs.getString("tenDuAn"), rs.getString("dateStart"),
+                            rs.getString("dateFinish"), rs.getDouble("tongkinhphi"),rs.getInt("id_nvQuanLy"));
+                }
+             str.close();   
+            }
+            
+            conn.close();
+            
         }
+        
     }
-
+public void insertProjectStaff( int maDuAn , int maNhanVien) throws ClassNotFoundException, SQLException{
+    Class.forName("com.mysql.cj.jdbc.Driver");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
+            String sql = "INSERT INTO duan_nhanvien VALUES (?,?)";
+        try (PreparedStatement str = conn.prepareStatement(sql)) {
+            str.setInt(1, maDuAn);
+            str.setInt(2, maNhanVien);
+            int execute = str.executeUpdate();
+            if ( execute != 0){
+                System.out.printf("DA THEM NHAN VIEN %d VAO DU AN %d" , maNhanVien , maDuAn);
+            }
+            else{
+                System.out.println("vui long nhap dung ten nhan vien va du an");
+            }
+            str.close();
+        }
+        conn.close();
+    }
+}
     /**
      * @return the dsDuAn
      */

@@ -34,6 +34,11 @@ public class NhanVien {
         return this.luongCoBan * this.heSo;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%d\t%s\t%s\t%.1f\t%s", this.maNhanVien, this.tenNhanVien, this.layLoai(), this.tinhLuong(),this.phongBan);
+    }
+
     public NhanVien(int maNhanVien, String tenNhanVien, String email, String gioiTinh, double heSo, String phongBan) {
         this.maNhanVien = maNhanVien;
         this.tenNhanVien = tenNhanVien;
@@ -44,7 +49,7 @@ public class NhanVien {
 
     }
 
-    public void insertStaff() throws ClassNotFoundException, SQLException {
+    public void mysql() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
             System.out.println("connected");
@@ -61,7 +66,8 @@ public class NhanVien {
             }
         }
     }
-
+    public void mysqlnvTruong()throws ClassNotFoundException, SQLException{
+    }
 
     /**
      * @return the maNhanVien

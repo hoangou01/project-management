@@ -29,7 +29,7 @@ public class QuanLyNhanVien {
         Statement str = conn.createStatement();
         ResultSet rs = str.executeQuery("SELECT * FROM nhanvien");
         while (rs.next()) {
-            System.out.printf("-ID:%d\tName:%s\t\tEmail:%s \t\tSEX:%s \t\tPosition:%s \t\tSALARY: %f",
+            System.out.printf("-ID:%d\tName:%s\t\tEmail:%s \t\tSEX:%s \t\tPosition:%s \t\tSALARY: %f\n",
                     rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
                     rs.getString("gioitinh"),
                     rs.getString("loainhanvien"),
@@ -44,7 +44,7 @@ public class QuanLyNhanVien {
     public void showProjectsOfStaff(int maNhanVien) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
-            String sql = "SELECT da.* FROM duan da "
+            String sql = "SELECT da.maDuAn ,da.tenDuAn ,DATE_FORMAT(ngayBatDau ,'%d-%m-%y') AS dateStart ,DATE_FORMAT(ngayKetThuc ,'%d-%m-%y') AS dateFinish ,da.tongkinhphi ,da.id_nvQuanLy FROM duan da "
                     + "INNER JOIN duan_nhanvien danv ON da.maDuAn = danv.duan_id "
                     + "INNER JOIN nhanvien nv ON danv.nhanvien_id = nv.id "
                     + "WHERE nv.id = ?";
@@ -56,10 +56,10 @@ public class QuanLyNhanVien {
                }
                else{
                    do{
-                       System.out.printf("ID : %d \tNAME : %s \t\tSTART : %s \tFINISH : %s \tMONEY : %f \n",
+                       System.out.printf("ID : %d \tNAME : %s \t\tSTART : %s \tFINISH : %s \tMONEY : %f \tID_MANAGER : %d\n",
                              rs.getInt("maDuAn"), rs.getString("tenDuAn"),
-                             rs.getDate("ngayBatDau"), rs.getDate("ngayKetThuc"),
-                            rs.getDouble("tongkinhphi"));
+                             rs.getString("dateStart"), rs.getString("dateFinish"),
+                            rs.getDouble("tongkinhphi"),rs.getInt("id_nvQuanLy"));
                    }while(rs.next());
                }
             }
