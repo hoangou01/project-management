@@ -52,7 +52,7 @@ public class QuanLyNhanVien {
                 str.setInt(1, maNhanVien);
                 ResultSet rs = str.executeQuery();
                if (!rs.next()){
-                   System.out.println("KHONG CO NHAN VIEN %d TRONG CONG TY");
+                   System.out.printf("NHAN VIEN %d KHONG LAM BAT KY DU AN NAO" , maNhanVien);
                }
                else{
                    System.out.printf("----------------- DANH SACH DU AN NHAN VIEN %d DANG LAM -----------------\n"  , maNhanVien);
@@ -111,16 +111,28 @@ public class QuanLyNhanVien {
             }
         }
     }
+    public boolean isStaff (int maNhanVien) throws ClassNotFoundException, SQLException{
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")){
+            String checkStaff = "SELECT * from nhanvien WHERE id = ?";
+             PreparedStatement str = conn.prepareStatement(checkStaff);
+             str.setInt(1, maNhanVien);
+             ResultSet rs = str.executeQuery();
+             if(rs.next()){
+                 return true;
+             }else{
+                 return false;
+             }
+             
+        }catch(Exception e){
+            System.out.printf("KHONG CO NHAN VIEN %d TRONG CONG TY" , maNhanVien);
+            return false;
+        }
+    }
     
 
-    public void themNhanVien(NhanVien d) {
-        this.dsNhanVien.add(d);
-    }
 
-    public void hienThiDs() {
-        this.dsNhanVien.forEach(x -> System.out.println(x));
-    }
-
+    
     /**
      * @return the dsNhanVien
      */

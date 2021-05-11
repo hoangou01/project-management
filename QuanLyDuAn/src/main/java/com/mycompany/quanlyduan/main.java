@@ -13,7 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.util.Scanner;
-import java.sql.Date;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -23,6 +24,7 @@ public class main {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException, ParseException {
         Scanner in = new Scanner(System.in);
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 // ================================  NHAN VIEN    =====================================    
         NhanVien s1 = new LapTrinhVien(1, "huy", "huyou01@gmail.com", "nam", 2, "sp002", 4);
 //      s1.insertStaff();
@@ -59,21 +61,11 @@ public class main {
 //      p2.insertDepartment();
 //   ================================= QUAN LY NHAN VIEN =======================================
         QuanLyNhanVien ql = new QuanLyNhanVien();
-        ql.themNhanVien(s1);
-        ql.themNhanVien(s2);
-        ql.themNhanVien(s3);
-        ql.themNhanVien(s4);
-        ql.themNhanVien(s5);
-        ql.themNhanVien(s6);
-        ql.themNhanVien(s7);
-        ql.themNhanVien(s8);
-        ql.themNhanVien(t1);
-        ql.themNhanVien(t2);
         DanhSachDuAn qlda = new DanhSachDuAn();
 
         int choose;
         do {
-            System.out.println("=================================MENU===================================");
+            System.out.println("\n\n=================================MENU===================================");
             System.out.print("1.xem tat ca nhan vien!\n" + "2.them,xoa,sua du an.\n" + "3.xem nhan vien cua 1 du an.\n"
                     + "4.xem du an cua 1 nhan vien.\n" + "5.tim kiem du an bang Name\n"
                     + "6.sap xep du an theo kinh phi dau tu\n" + "7.tim kiem nhan vien bang ten or phong ban\n"
@@ -81,7 +73,7 @@ public class main {
                     + "========================================================================\n" + "BANCHON:\n");
             choose = in.nextInt();
             if (choose >= 1 && choose <= 8) {
-                System.out.printf("================================ CASE %d ================================\n",choose);
+                System.out.printf("================================ CASE %d ================================\n", choose);
             }
             switch (choose) {
                 case 1:
@@ -90,7 +82,8 @@ public class main {
                 case 2:
                     int choose1;
                     do {
-                        System.out.println("\n1.them 1 du an\n2.xoa 1 du an.\n3.sua du an\n4.THOAT\n==BANCHON:");
+                        System.out.println("==== case 2's menu ====");
+                        System.out.println("1.them 1 du an\n2.xoa 1 du an.\n3.sua du an\n4.THOAT\n==BANCHON:");
                         choose1 = in.nextInt();
                         switch (choose1) {
                             case 1:
@@ -100,23 +93,90 @@ public class main {
                                 System.out.println("\nnhap ten du an :");
                                 String tenDuAn = in.next();
                                 in.nextLine();
-                                System.out.println("nnhap ngay bat dau :");
-                                String dateStart = in.next();
+// nhap ngay bat dau
+                                System.out.println("nhap ngay bat dau :");
+                                String dateString = in.next();
+                                Date date =  new SimpleDateFormat("dd-MM-yyyy").parse(dateString);
+                                String dateStart = new SimpleDateFormat("yyyy-MM-dd").format(date);
+// nhap ngay ket thuc
                                 System.out.println("nhap ket thuc :");
-                                String dateFinish = in.next();
+                                String dateString1 = in.next();
+                                Date date1 =  new SimpleDateFormat("dd-MM-yyyy").parse(dateString1);
+                                String dateFinish = new SimpleDateFormat("yyyy-MM-dd").format(date1);
+//nhap tong kinh phi
                                 System.out.println("nhap tong kinh phi :");
                                 Double tongKinhPhi = in.nextDouble();
+// nhap ma nhan vien quan ly
                                 System.out.println("nhap ma nhan vien quan ly :");
                                 int nvQuanLy = in.nextInt();
+// them thong tin da nhap vao du an
                                 qlda.insertProject(maDuAn, tenDuAn, dateStart, dateFinish, tongKinhPhi, nvQuanLy);
                                 System.out.println("=================CAP NHAT DU AN ================");
                                 qlda.showListOfProject();
                                 break;
                             case 2:
+                                System.out.println("---------------- DANH SACH DU AN HIEN CO ---------------");
+                                qlda.showListOfProject();
                                 System.out.println("NHAP MA DU AN BAN MUON XOA : ");
                                 int deleteDuAn = in.nextInt();
+                                if (qlda.isProject(deleteDuAn)){
                                 qlda.deleteProject(deleteDuAn);
+                                }else{
+                                    System.out.printf("KHONG CO DU AN %d TRONG CONG TY\n" ,deleteDuAn);
+                                }
                                 break;
+                            case 3:
+                                int choose3;
+                                System.out.println("---------- HIEN DANG CO CAC DU AN ---------");
+                                qlda.showListOfProject();
+                                System.out.println("NHAP MA DU AN BAN MUON CAP NHAT : ");
+                                int maDuAnUpdate = in.nextInt();
+                                while (!qlda.isProject(maDuAnUpdate)) {
+                                    System.out.println("\nVUI LONG CHON DUNG MA DU AN!");
+                                    System.out.println("\nNHAP LAI MA DU AN BAN MUON CAP NHAT :");
+                                    maDuAnUpdate = in.nextInt();
+                                }
+                                if (qlda.isProject(maDuAnUpdate) == true) {
+                                    do {
+                                        System.out.println("1.sua ten du an.\n2.sua ngay bat dau. \n3.sua ngay ket thuc. \n4.sua tong kinh phi. \n5.sua ma nhan vien quan ly.\n6.thoat.\n-ban chon :");
+                                        choose3 = in.nextInt();
+                                        switch (choose3) {
+                                            case 1:
+
+                                                System.out.println("NHAP TEN BAN MUON SUA :");
+                                                String tenDuAnUpdate = in.next();
+                                                in.nextLine();
+                                                qlda.updateName(maDuAnUpdate, tenDuAnUpdate);
+                                                break;
+                                            case 2:
+                                                System.out.println("NHAP NGAY BAT DAU MUON SUA THEO FORMAT (YEAR-MONTH-DAY)  :");
+                                                dateString = in.next();
+                                                date =  new SimpleDateFormat("dd-MM-yyyy").parse(dateString);
+                                                String dateStartUpdate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                                                qlda.updateDateStart(dateStartUpdate, maDuAnUpdate);
+                                                break;
+                                            case 3:
+                                                System.out.println("NHAP NGAY KET THUC MUON SUA THEO FORMAT (YEAR-MONTH-DAY)  :");
+                                                dateString1 = in.next();
+                                                date1 =  new SimpleDateFormat("dd-MM-yyyy").parse(dateString1);
+                                                String dateFinishUpdate = new SimpleDateFormat("yyyy-MM-dd").format(date1);
+                                                qlda.updateDateFinish(dateFinishUpdate, maDuAnUpdate);
+                                                break;
+
+                                            case 4:
+                                                System.out.println("NHAP TONG KINH PHI MUON SUA :");
+                                                double expenseUpdate = in.nextDouble();
+                                                qlda.updateExpense(maDuAnUpdate, expenseUpdate);
+                                                break;
+                                            case 5:
+                                                System.out.println("NHAP MA NHAN VIEN QUAN LY MUON SUA :");
+                                                int id_managerUpdate = in.nextInt();
+                                                qlda.updateIdManager(maDuAnUpdate, id_managerUpdate);
+                                                break;
+                                        }
+                                    } while (choose3 >= 1 && choose3 <= 5);
+                                }
+
                         }
                     } while (choose1 >= 1 && choose1 < 4);
                     break;
@@ -126,13 +186,33 @@ public class main {
                     System.out.println("\nNHAP MA DU AN BAN MUON XEM :");
                     int maDuAn;
                     maDuAn = in.nextInt();
+                    while (!qlda.isProject(maDuAn)) {
+                        System.out.println("\nVUI LONG NHAP DUNG!");
+                        System.out.println("\nNHAP LAI MA DU AN BAN MUON XEM :");
+                        maDuAn = in.nextInt();
+                    }
+                    if (qlda.isProject(maDuAn)) {
+                        qlda.showStaffsOfProject(maDuAn);
+                    } else {
+                        System.out.printf("KHONG CO DU AN %d VUI LONG NHAP DUNG !", maDuAn);
+                    }
 
-                    qlda.showStaffsOfProject(maDuAn);
                     break;
                 case 4:
+                    System.out.println("---------- DANH SACH NHAN VIEN HIEN DANG CO -----------");
+                    ql.showListOfStaff();
                     System.out.println("NHAP MA NHAN VIEN BAN MUON XEM :");
                     int maNhanVien = in.nextInt();
-                    ql.showProjectsOfStaff(maNhanVien);
+                    while (!ql.isStaff(maNhanVien)) {
+                        System.out.printf("KHONG CO NHAN VIEN %d TRONG CONG TY", maNhanVien);
+                        System.out.println("\nVUI LONG NHAP DUNG!");
+                        System.out.println("NHAP LAI MA NHAN VIEN BAN MUON XEM :");
+                        maNhanVien = in.nextInt();
+                    }
+                    if (ql.isStaff(maNhanVien)) {
+                        ql.showProjectsOfStaff(maNhanVien);
+                    }
+
                     break;
                 case 5:
                     System.out.println("NHAP TEN DU AN BAN MUON TIM :");
@@ -146,11 +226,11 @@ public class main {
                     qlda.sortProjectByExpense();
                     break;
                 case 7:
-                    int choose2;
+                    int choose7;
                     do {
                         System.out.println("1.tim kiem nhan vien bang ten\n2.tim kiem nhan vien bang phong ban\n3.thoat\nBANCHON:");
-                        choose2 = in.nextInt();
-                        switch (choose2) {
+                        choose7 = in.nextInt();
+                        switch (choose7) {
 
                             case 1:
                                 System.out.println("NHAP TEN NHAN VIEN BAN MUON TIM:");
@@ -166,7 +246,7 @@ public class main {
                                 ql.findStaffByDepartment(namePhongBan);
                                 break;
                         }
-                    } while (choose2 == 1 || choose2 == 2);
+                    } while (choose7 == 1 || choose7 == 2);
                     break;
                 case 8:
                     System.out.println("----------------- DANH SACH NHAN VIEN HIEN CO -----------------");
@@ -176,8 +256,18 @@ public class main {
                     System.out.println("NHAP MA NHAN VIEN BAN MUON THEM : ");
                     int maNhanVienThem = in.nextInt();
                     System.out.println("");
+                    while (!ql.isStaff(maNhanVienThem)) {
+                        System.out.println("VUI LONG NHAP DUNG MA NHAN VIEN!");
+                        System.out.println("NHAP MA NHAN VIEN BAN MUON THEM : ");
+                        maNhanVienThem = in.nextInt();
+                    }
                     System.out.printf("NHAP MA DU AN BAN MUON THEM NHAN VIEN CO MA %d : \n", maNhanVienThem);
                     int maDuAnThem = in.nextInt();
+                    while (!qlda.isProject(maDuAnThem)) {
+                        System.out.println("VUI LONG NHAP DUNG MA DU AN");
+                        System.out.printf("NHAP MA DU AN BAN MUON THEM NHAN VIEN CO MA %d : \n", maNhanVienThem);
+                        maDuAnThem = in.nextInt();
+                    }
                     qlda.insertProjectAndStaff(maDuAnThem, maNhanVienThem);
                     System.out.println("");
                     break;
