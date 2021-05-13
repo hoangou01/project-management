@@ -121,6 +121,8 @@ public class main {
                                 int deleteDuAn = in.nextInt();
                                 if (qlda.isProject(deleteDuAn)) {
                                     qlda.deleteProject(deleteDuAn);
+                                    System.out.println("=================CAP NHAT DU AN ================");
+                                    qlda.showListOfProject();
                                 } else {
                                     System.out.printf("KHONG CO DU AN %d TRONG CONG TY\n", deleteDuAn);
                                 }
@@ -228,7 +230,7 @@ public class main {
                 case 7:
                     int choose7;
                     do {
-                        System.out.println(" ---------------------------------------");
+                        System.out.println("\n\n ---------------------------------------");
                         System.out.println("|  1.tim kiem nhan vien bang ten        |\n"
                                          + "|  2.tim kiem nhan vien bang phong ban  |"
                                        + "\n|  3.thoat                              |"

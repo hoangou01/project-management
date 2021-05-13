@@ -60,8 +60,6 @@ public class DanhSachDuAn {
                 int dem = str.executeUpdate();
                 if (dem != 0) {
                     System.out.printf("DA XOA DU AN %d\n", maDuAn);
-                    System.out.println("=================CAP NHAT DU AN ================");
-                    this.showListOfProject();
                 }
                 str.close();
 
@@ -186,8 +184,8 @@ public class DanhSachDuAn {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
             String sql = "INSERT INTO duan_nhanvien VALUES (?,?)";
             try ( PreparedStatement str = conn.prepareStatement(sql)) {
-                str.setInt(1, maDuAn);
-                str.setInt(2, maNhanVien);
+                str.setInt(2, maDuAn);
+                str.setInt(1, maNhanVien);
                 int execute = str.executeUpdate();
                 if (execute != 0) {
                     System.out.printf("DA THEM NHAN VIEN %d VAO DU AN %d", maNhanVien, maDuAn);
@@ -338,7 +336,7 @@ public class DanhSachDuAn {
                         str.executeUpdate();
                         strTurnOn.executeQuery();
                         if (dem != 0) {
-                            System.out.printf("\nDA XOA THANH CONG DU AN %d", maDuAn);
+                            System.out.printf("\nDA XOA THANH CONG DU AN %d\n", maDuAn);
                         }
                         strTurnOn.close();
                     } catch (Exception e) {

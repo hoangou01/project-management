@@ -28,31 +28,19 @@ public class PhongBan {
         this.tenPhongBan = tenPhongBan;
         this.nhanVienTruong = nhanVienTruong;
     }
-    public void mysql() throws ClassNotFoundException, SQLException{
+    public void insertDepartment() throws ClassNotFoundException, SQLException{
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
-        System.out.println("connected");
-        String sql = "INSERT INTO phongban VALUES (?,?)";
-        PreparedStatement str = conn.prepareStatement(sql);
-        str.setString(1, this.tenPhongBan);
-        str.setInt(2, this.nhanVienTruong.getMaNhanVien());
-        str.execute();
-        str.close();
-        conn.close();        
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
+            System.out.println("connected");
+            String sql = "INSERT INTO phongban VALUES (?,?)";
+            try (PreparedStatement str = conn.prepareStatement(sql)) {
+                str.setString(1, this.tenPhongBan);
+                str.setInt(2, this.nhanVienTruong.getMaNhanVien());
+                str.execute();
+            }
+        }        
     }
-    public void hienThi(String ten) throws ClassNotFoundException, SQLException{
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
-        String sql = "SELECT * FROM nhanvien WHERE pb_ten like concat ('%',?,'%')";
-        PreparedStatement str = conn.prepareStatement(sql);
-        str.setString(1, ten);
-        ResultSet rs = str.executeQuery();
-        while(rs.next()){
-            System.out.printf("-ID:%d\t,Name:%s\t,Email:%s\t,Position:%s\t,Salary:%.2f\t,PhongBan:%s",
-                    rs.getInt("id"),rs.getString("name"),rs.getString("email"),
-                    rs.getString("loainhanvien"),rs.getDouble("luong"),rs.getString("pb_ten"));
-        }
-    }
+ 
     /**
      * @return the tenPhongBan
      */

@@ -1,1 +1,11 @@
+com\mycompany\quanlyduan\NhanVien.class
+com\mycompany\quanlyduan\QuanLyNhanVien.class
+com\mycompany\quanlyduan\DanhSachPhongBan.class
+com\mycompany\quanlyduan\ThietKeVien.class
+com\mycompany\quanlyduan\DuAn.class
+com\mycompany\quanlyduan\KiemThuVien.class
+com\mycompany\quanlyduan\NhanVienTruong.class
+com\mycompany\quanlyduan\PhongBan.class
+com\mycompany\quanlyduan\DanhSachDuAn.class
 com\mycompany\quanlyduan\main.class
+com\mycompany\quanlyduan\LapTrinhVien.class
