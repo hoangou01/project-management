@@ -36,16 +36,18 @@ public class DanhSachDuAn {
         java.util.Date ngayKetThuc = FORMAT.parse(dateFinish);
 
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
-        String mysql = "INSERT INTO duan VALUES (?,?,?,?,?,?)";
-        PreparedStatement str = conn.prepareStatement(mysql);
-        str.setInt(1, maDuAn);
-        str.setString(2, tenDuAn);
-        str.setDate(3, new java.sql.Date(ngayBatDau.getTime()));
-        str.setDate(4, new java.sql.Date(ngayKetThuc.getTime()));
-        str.setDouble(5, tongKinhPhi);
-        str.setInt(6, manvQuanLy);
-        str.execute();
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
+            String mysql = "INSERT INTO duan VALUES (?,?,?,?,?,?)";
+            try ( PreparedStatement str = conn.prepareStatement(mysql)) {
+                str.setInt(1, maDuAn);
+                str.setString(2, tenDuAn);
+                str.setDate(3, new java.sql.Date(ngayBatDau.getTime()));
+                str.setDate(4, new java.sql.Date(ngayKetThuc.getTime()));
+                str.setDouble(5, tongKinhPhi);
+                str.setInt(6, manvQuanLy);
+                str.execute();
+            }
+        }
     }
 
     // xoa du an 
@@ -64,17 +66,13 @@ public class DanhSachDuAn {
                 str.close();
 
             } catch (Exception e) {
+
                 System.out.printf("KHONG THE XOA  DU AN %d VI CO THE GAY ANH HUONG DEN DU LIEU!\n", maDuAn);
                 int chooseDelete;
-
                 System.out.println("MUON TIEP TUC XOA NHAN PHIM 1 :");
                 chooseDelete = in.nextInt();
                 if (chooseDelete == 1) {
-                    switch (chooseDelete) {
-                        case 1:
-                            this.deleteProjectUnderSafeMode(maDuAn);
-                    }
-
+                    this.deleteProjectUnderSafeMode(maDuAn);
                 }
             }
             conn.close();
@@ -181,6 +179,7 @@ public class DanhSachDuAn {
         }
 
     }
+// them nhan vien vao 1 du an
 
     public void insertProjectAndStaff(int maDuAn, int maNhanVien) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -200,23 +199,25 @@ public class DanhSachDuAn {
             conn.close();
         }
     }
+// kiem tra du an co ton tai khong
 
     public boolean isProject(int maDuAn) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
             String sql = "SELECT * from duan WHERE maDuAn = ?";
-            PreparedStatement str = conn.prepareStatement(sql);
-            str.setInt(1, maDuAn);
-            ResultSet rs = str.executeQuery();
-            if (rs.next()) {
-                return true;
-            } else {
+            try ( PreparedStatement str = conn.prepareStatement(sql)) {
+                str.setInt(1, maDuAn);
+                ResultSet rs = str.executeQuery();
+                if (rs.next()) {
+                    return true;
+                } else {
 
-                return false;
+                    return false;
+                }
             }
-
         }
     }
+// cap nhat ten du an
 
     public void updateName(int maDuAn, String name) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -236,6 +237,7 @@ public class DanhSachDuAn {
             conn.close();
         }
     }
+// cap nhat ngay bat dau
 
     public void updateDateStart(String ngayBatDau, int maDuAn) throws ClassNotFoundException, SQLException, ParseException {
         java.util.Date dateStart = FORMAT.parse(ngayBatDau);
@@ -257,6 +259,7 @@ public class DanhSachDuAn {
             conn.close();
         }
     }
+// cap nhat ngay ket thuc
 
     public void updateDateFinish(String ngayKetThuc, int maDuAn) throws ClassNotFoundException, SQLException, ParseException {
         java.util.Date dateFinish = FORMAT.parse(ngayKetThuc);
@@ -278,6 +281,7 @@ public class DanhSachDuAn {
             conn.close();
         }
     }
+// cap nhat tong kinh phi
 
     public void updateExpense(int maDuAn, Double tongKinhPhi) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -297,6 +301,7 @@ public class DanhSachDuAn {
             conn.close();
         }
     }
+// cap nhat nhan vien truong
 
     public void updateIdManager(int maDuAn, int id_nvQuanLy) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -316,23 +321,37 @@ public class DanhSachDuAn {
             conn.close();
         }
     }
+// xoa du an theo cach tat mode safe delete
 
-   public void deleteProjectUnderSafeMode(int maDuAn) throws ClassNotFoundException, SQLException {
+    public void deleteProjectUnderSafeMode(int maDuAn) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
-            String sql = "SET SQL_SAFE_UPDATES = 0;"
-                    + "DELETE FROM duan WHERE maDuAn = ?; "
-                    + "SET SQL_SAFE_UPDATES = 1;";
-            try ( PreparedStatement str = conn.prepareStatement(sql)) {
-                str.setInt(1, maDuAn);
-                int dem = str.executeUpdate();
-                if (dem != 0) {
-                    System.out.printf("\nDA XOA THANH CONG DU AN %d", maDuAn);
+            String turnOff = "SET FOREIGN_KEY_CHECKS=0 ";
+            String sql = "DELETE FROM duan WHERE maDuAn = ?";
+            String turnOn = "SET FOREIGN_KEY_CHECKS=1 ";
+            try ( PreparedStatement strTurnOff = conn.prepareStatement(turnOff)) {
+                try ( PreparedStatement str = conn.prepareStatement(sql)) {
+                    try ( PreparedStatement strTurnOn = conn.prepareStatement(turnOn)) {
+                        strTurnOff.executeQuery();
+                        str.setInt(1, maDuAn);
+                        int dem = str.executeUpdate();
+                        str.executeUpdate();
+                        strTurnOn.executeQuery();
+                        if (dem != 0) {
+                            System.out.printf("\nDA XOA THANH CONG DU AN %d", maDuAn);
+                        }
+                        strTurnOn.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    str.close();
+                } catch (Exception ex) {
+                    System.out.printf("\nXOA DU AN %d KHONG THANH CONG\n", maDuAn);
+                    ex.printStackTrace();
                 }
-                str.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("\nKO THE DELETE");
+                strTurnOff.close();
+            } catch (Exception ez) {
+                ez.printStackTrace();
             }
             conn.close();
         }

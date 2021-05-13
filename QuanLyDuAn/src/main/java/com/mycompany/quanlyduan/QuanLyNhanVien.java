@@ -97,10 +97,10 @@ public class QuanLyNhanVien {
                 str.setString(1, tenPhongBan);
                 ResultSet rs = str.executeQuery();
                if (!rs.next()){
+                   
                    System.out.printf("KHONG CO PHONG BAN %s TRONG CONG TY\n" , tenPhongBan);
                }
                else{
-                   System.out.printf("------- KET QUA TIM KIEM NHAN VIEN CO TEN PHONG BAN %s ------------\n", tenPhongBan);
                    do{
                        System.out.printf("ID: %d \tNAME: %s \tEMAIL: %s \tSEX: %s \tPOSSION:%s \tSALARY: %f\n",
                              rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
@@ -111,6 +111,7 @@ public class QuanLyNhanVien {
             }
         }
     }
+    // kiem tra nhan vien co ton tai hay ko
     public boolean isStaff (int maNhanVien) throws ClassNotFoundException, SQLException{
         Class.forName("com.mysql.cj.jdbc.Driver");
         try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")){
