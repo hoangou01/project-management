@@ -28,26 +28,26 @@ public class NhanVienTruong extends NhanVien {
         super(maNhanVien, tenNhanVien, email, gioiTinh, heSo, phongBan);
         this.ngayNhamChuc =  FORMAT.parse(Ngay);  
     }
-    public void insertManager() throws ClassNotFoundException, SQLException{
-         java.util.Date date_NhamChuc = this.ngayNhamChuc;
-         java.sql.Date sqlDate_NhamChuc = new java.sql.Date (date_NhamChuc.getTime());
-
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
-            System.out.println("connected");
-            String sql = "INSERT INTO nvtruong VALUES(?,?,?,?,?,?,?)";
-             try (PreparedStatement str = conn.prepareStatement(sql)) {
-                 str.setInt(1, this.getMaNhanVien());
-                 str.setString(2, this.getTenNhanVien());
-                 str.setString(3, this.getEmail());
-                 str.setString(4, this.getGioiTinh());
-                 str.setDouble(5, this.tinhLuong());
-                 str.setDate(6, (java.sql.Date) sqlDate_NhamChuc);
-                 str.setString(7, this.layLoai());
-                 str.execute();
-             }
-        }
-    }
+//    public void insertManager() throws ClassNotFoundException, SQLException{
+//         java.util.Date date_NhamChuc = this.ngayNhamChuc;
+//         java.sql.Date sqlDate_NhamChuc = new java.sql.Date (date_NhamChuc.getTime());
+//
+//        Class.forName("com.mysql.cj.jdbc.Driver");
+//        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
+//            System.out.println("connected");
+//            String sql = "INSERT INTO nvtruong VALUES(?,?,?,?,?,?,?)";
+//             try (PreparedStatement str = conn.prepareStatement(sql)) {
+//                 str.setInt(1, this.getMaNhanVien());
+//                 str.setString(2, this.getTenNhanVien());
+//                 str.setString(3, this.getEmail());
+//                 str.setString(4, this.getGioiTinh());
+//                 str.setDouble(5, this.tinhLuong());
+//                 str.setDate(6, (java.sql.Date) sqlDate_NhamChuc);
+//                 str.setString(7, this.layLoai());
+//                 str.execute();
+//             }
+//        }
+//    }
     @Override
     public String layLoai() {
         return "Nhan Vien Truong";

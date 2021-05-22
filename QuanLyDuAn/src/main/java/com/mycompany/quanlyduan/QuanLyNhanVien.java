@@ -22,6 +22,7 @@ public class QuanLyNhanVien {
 
     private List<NhanVien> dsNhanVien = new ArrayList<>();
 // xem danh sach nhan vien
+
     public void showListOfStaff() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678");
@@ -51,22 +52,22 @@ public class QuanLyNhanVien {
             try ( PreparedStatement str = conn.prepareStatement(sql)) {
                 str.setInt(1, maNhanVien);
                 ResultSet rs = str.executeQuery();
-               if (!rs.next()){
-                   System.out.printf("NHAN VIEN %d KHONG LAM BAT KY DU AN NAO" , maNhanVien);
-               }
-               else{
-                   System.out.printf("----------------- DANH SACH DU AN NHAN VIEN %d DANG LAM -----------------\n"  , maNhanVien);
-                   do{
-                       System.out.printf("ID : %d \tNAME : %s \t\tSTART : %s \tFINISH : %s \tMONEY : %f \tID_MANAGER : %d\n",
-                             rs.getInt("maDuAn"), rs.getString("tenDuAn"),
-                             rs.getString("dateStart"), rs.getString("dateFinish"),
-                            rs.getDouble("tongkinhphi"),rs.getInt("id_nvQuanLy"));
-                   }while(rs.next());
-               }
+                if (!rs.next()) {
+                    System.out.printf("NHAN VIEN %d KHONG LAM BAT KY DU AN NAO", maNhanVien);
+                } else {
+                    System.out.printf("----------------- DANH SACH DU AN NHAN VIEN %d DANG LAM -----------------\n", maNhanVien);
+                    do {
+                        System.out.printf("ID : %d \tNAME : %s \t\tSTART : %s \tFINISH : %s \tMONEY : %f \tID_MANAGER : %d\n",
+                                rs.getInt("maDuAn"), rs.getString("tenDuAn"),
+                                rs.getString("dateStart"), rs.getString("dateFinish"),
+                                rs.getDouble("tongkinhphi"), rs.getInt("id_nvQuanLy"));
+                    } while (rs.next());
+                }
             }
         }
     }
 // tim kiem nhan vien bang ten
+
     public void findStaffByName(String name) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
@@ -74,21 +75,21 @@ public class QuanLyNhanVien {
             try ( PreparedStatement str = conn.prepareStatement(mysql)) {
                 str.setString(1, name);
                 ResultSet rs = str.executeQuery();
-                if (!rs.next()){
-                    System.out.printf("KHONG CO NHAN VIEN NAO TEN %s \n" , name);
-                }
-                else{
-                    do{
+                if (!rs.next()) {
+                    System.out.printf("KHONG CO NHAN VIEN NAO TEN %s \n", name);
+                } else {
+                    do {
                         System.out.printf("ID: %d \tNAME: %s \tEMAIL: %s \tSEX: %s \tPOSSION:%s \tSALARY: %f\n",
-                             rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
-                             rs.getString("gioitinh"), rs.getString("loainhanvien"),
-                             rs.getDouble("luong"));
-                    }while(rs.next());
+                                rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
+                                rs.getString("gioitinh"), rs.getString("loainhanvien"),
+                                rs.getDouble("luong"));
+                    } while (rs.next());
                 }
             }
         }
     }
 // tim kiem nhan vien bang ten phong 
+
     public void findStaffByDepartment(String tenPhongBan) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
@@ -96,44 +97,41 @@ public class QuanLyNhanVien {
             try ( PreparedStatement str = conn.prepareStatement(mysql)) {
                 str.setString(1, tenPhongBan);
                 ResultSet rs = str.executeQuery();
-               if (!rs.next()){
-                   
-                   System.out.printf("KHONG CO PHONG BAN %s TRONG CONG TY\n" , tenPhongBan);
-               }
-               else{
-                   do{
-                       System.out.printf("ID: %d \tNAME: %s \tEMAIL: %s \tSEX: %s \tPOSSION:%s \tSALARY: %f\n",
-                             rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
-                             rs.getString("gioitinh"), rs.getString("loainhanvien"),
-                             rs.getDouble("luong"));
-                   }while(rs.next());
-               }
+                if (!rs.next()) {
+
+                    System.out.printf("KHONG CO PHONG BAN %s TRONG CONG TY\n", tenPhongBan);
+                } else {
+                    do {
+                        System.out.printf("ID: %d \tNAME: %s \tEMAIL: %s \tSEX: %s \tPOSSION:%s \tSALARY: %f\n",
+                                rs.getInt("id"), rs.getString("ten"), rs.getString("email"),
+                                rs.getString("gioitinh"), rs.getString("loainhanvien"),
+                                rs.getDouble("luong"));
+                    } while (rs.next());
+                }
             }
         }
     }
+
     // kiem tra nhan vien co ton tai hay ko
-    public boolean isStaff (int maNhanVien) throws ClassNotFoundException, SQLException{
+    public boolean isStaff(int maNhanVien) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")){
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
             String checkStaff = "SELECT * from nhanvien WHERE id = ?";
-             PreparedStatement str = conn.prepareStatement(checkStaff);
-             str.setInt(1, maNhanVien);
-             ResultSet rs = str.executeQuery();
-             if(rs.next()){
-                 return true;
-             }else{
-                 return false;
-             }
-             
-        }catch(Exception e){
-            System.out.printf("KHONG CO NHAN VIEN %d TRONG CONG TY" , maNhanVien);
+            PreparedStatement str = conn.prepareStatement(checkStaff);
+            str.setInt(1, maNhanVien);
+            ResultSet rs = str.executeQuery();
+            if (rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (Exception e) {
+            System.out.printf("KHONG CO NHAN VIEN %d TRONG CONG TY", maNhanVien);
             return false;
         }
     }
-    
 
-
-    
     /**
      * @return the dsNhanVien
      */

@@ -46,7 +46,11 @@ public class DanhSachDuAn {
                 str.setDouble(5, tongKinhPhi);
                 str.setInt(6, manvQuanLy);
                 str.execute();
+                str.close();
+            }catch(Exception e){
+                System.out.println("\nKhong the them du lieu!");
             }
+            conn.close();
         }
     }
 
@@ -67,10 +71,11 @@ public class DanhSachDuAn {
 
                 System.out.printf("KHONG THE XOA  DU AN %d VI CO THE GAY ANH HUONG DEN DU LIEU!\n", maDuAn);
                 int chooseDelete;
-                System.out.println("MUON TIEP TUC XOA NHAN PHIM 1 :");
+                System.out.println("MUON TIEP TUC XOA NHAN PHIM 1 OR MUON THOAT NHAN PHIM 2:");
                 chooseDelete = in.nextInt();
                 if (chooseDelete == 1) {
                     this.deleteProjectUnderSafeMode(maDuAn);
+                    this.deleteStaffProject(maDuAn);
                 }
             }
             conn.close();
@@ -350,6 +355,22 @@ public class DanhSachDuAn {
                 strTurnOff.close();
             } catch (Exception ez) {
                 ez.printStackTrace();
+            }
+            conn.close();
+        }
+    }
+
+    public void deleteStaffProject(int maDuAn) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
+            String sql = " DELETE FROM duan_nhanvien WHERE duan_id = ?";
+            try ( PreparedStatement str = conn.prepareStatement(sql)) {
+                str.setInt(1, maDuAn);
+                str.executeUpdate();
+
+                str.close();
+            }catch(Exception e){
+                e.printStackTrace();
             }
             conn.close();
         }

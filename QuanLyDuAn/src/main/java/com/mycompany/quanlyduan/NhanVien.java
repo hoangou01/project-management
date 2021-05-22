@@ -161,4 +161,8 @@ public class NhanVien {
         this.duAnCuaNV = duAnCuaNV;
     }
 
+//  public void insertManager() {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+
 }
