@@ -25,33 +25,11 @@ public class main {
     public static void main(String[] args) throws ClassNotFoundException, SQLException, ParseException {
         Scanner in = new Scanner(System.in);
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-// ================================  NHAN VIEN    =====================================    
-        NhanVien s1 = new LapTrinhVien(1, "huy", "huyou01@gmail.com", "nam", 2, "sp002", 4);
-//      s1.insertStaff();
-        NhanVien s2 = new NhanVien(2, "huong", "huongou01@gmail.com", "nu", 3, "sp001");
-//      s1.insertStaff();
-        NhanVien s3 = new LapTrinhVien(3, "huy", "huyou01@gmail.com", "nam", 2, "sp001", 3);
-//      s1.insertStaff();
-        NhanVien s4 = new ThietKeVien(4, "thuy", "thuyou01@gmai.com", "nu", 2, "sp002", 5000000);
-//      s1.insertStaff();
-        NhanVien s5 = new KiemThuVien(5, "romeo", "romeo01@gmail.com", "nam", 3, "sp002", 10);
-//     s1.insertStaff();
-        NhanVien s6 = new ThietKeVien(6, "thanh", "thanh01@gmai.com", "nam", 2, "sp002", 3000000);
-//      s1.insertStaff();
-        NhanVien s7 = new NhanVien(7, "justin", "biber01@gmail.com", "nam", 2, "sp001");
-//     s1.insertStaff();
-        NhanVien s8 = new LapTrinhVien(8, "hung", "hungou01@gmail.com", "nam", 2, "sp001", 4);
-//       s1.insertStaff();
-//   ================================ DU AN =======================================
-        DuAn a1 = new DuAn(112, "cong trinh landmark81", "2018-03-12", "2020-01-24", 250000000, s2);
-//      a1.insertProject();
-        DuAn a2 = new DuAn(225, "khu do thi sala", "2019-08-25", "2022-03-30", 50000000, s4);
-//      a2.insertProject();
 //  ================================ NHAN VIEN TRUONG ============================================
-        NhanVien t1 = new NhanVienTruong(11, "hoang", "hoangou01@gmail.com", "nam", "2024-11-25", 1.5, "sp001");
+        NhanVienTruong t1 = new NhanVienTruong(11, "hoang", "hoangou01@gmail.com", "nam", "2024-11-25", 1.5, null);
 //      s1.insertStaff();
 //      t1.insertManager();
-        NhanVien t2 = new NhanVienTruong(12, "ha", "haou01@gmail.com", "nu", "2024-12-20", 1, "sp002");
+        NhanVienTruong t2 = new NhanVienTruong(12, "ha", "haou01@gmail.com", "nu", "2024-12-20", 1, null);
 //      s1.insertStaff();
 //      t2.insertManager();
 //  ================================= PHONG BAN ==================================================
@@ -59,6 +37,30 @@ public class main {
 //      p1.insertDepartment();
         PhongBan p2 = new PhongBan("sp002", t2);
 //      p2.insertDepartment();
+// ================================  NHAN VIEN    =====================================    
+        NhanVien s1 = new LapTrinhVien(1, "huy", "huyou01@gmail.com", "nam", 2, p2, 4);
+//      s1.insertStaff();
+        NhanVien s2 = new NhanVien(2, "huong", "huongou01@gmail.com", "nu", 3, p1);
+//      s1.insertStaff();
+        NhanVien s3 = new LapTrinhVien(3, "huy", "huyou01@gmail.com", "nam", 2, p1, 3);
+//      s1.insertStaff();
+        NhanVien s4 = new ThietKeVien(4, "thuy", "thuyou01@gmai.com", "nu", 2, p2, 5000000);
+//      s1.insertStaff();
+        NhanVien s5 = new KiemThuVien(5, "romeo", "romeo01@gmail.com", "nam", 3, p2, 10);
+//     s1.insertStaff();
+        NhanVien s6 = new ThietKeVien(6, "thanh", "thanh01@gmai.com", "nam", 2, p2, 3000000);
+//      s1.insertStaff();
+        NhanVien s7 = new NhanVien(7, "justin", "biber01@gmail.com", "nam", 2, p1);
+//     s1.insertStaff();
+        NhanVien s8 = new LapTrinhVien(8, "hung", "hungou01@gmail.com", "nam", 2, p1, 4);
+//       s1.insertStaff();
+//   ================================ DU AN =======================================
+        DuAn a1 = new DuAn(112, "cong trinh landmark81", "2018-03-12", "2020-01-24", 250000000, s2);
+//      a1.insertProject();
+        DuAn a2 = new DuAn(225, "khu do thi sala", "2019-08-25", "2022-03-30", 50000000, s4);
+//      a2.insertProject();
+
+
 //   ================================= QUAN LY NHAN VIEN =======================================
         QuanLyNhanVien ql = new QuanLyNhanVien();
         DanhSachDuAn qlda = new DanhSachDuAn();
@@ -78,7 +80,7 @@ public class main {
             switch (choose) {
                 case 1:
                     ql.showListOfStaff();
-                    break;
+                    break;                    
                 case 2:
                     int choose1;
                     do {

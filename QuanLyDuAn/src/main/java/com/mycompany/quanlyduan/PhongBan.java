@@ -21,10 +21,10 @@ import java.util.List;
 public class PhongBan {
     private String tenPhongBan;
     private List<NhanVien> dsNhanVien = new ArrayList<>();
-    private NhanVien nhanVienTruong;
+    private NhanVienTruong nhanVienTruong;
     //hien thi nhan vien cua 1 phong ban
 
-    public PhongBan(String tenPhongBan, NhanVien nhanVienTruong) {
+    public PhongBan(String tenPhongBan, NhanVienTruong nhanVienTruong) {
         this.tenPhongBan = tenPhongBan;
         this.nhanVienTruong = nhanVienTruong;
     }
@@ -76,14 +76,14 @@ public class PhongBan {
     /**
      * @return the nhanVienTruong
      */
-    public NhanVien getNhanVienTruong() {
+    public NhanVienTruong getNhanVienTruong() {
         return nhanVienTruong;
     }
 
     /**
      * @param nhanVienTruong the nhanVienTruong to set
      */
-    public void setNhanVienTruong(NhanVien nhanVienTruong) {
+    public void setNhanVienTruong(NhanVienTruong nhanVienTruong) {
         this.nhanVienTruong = nhanVienTruong;
     }
     

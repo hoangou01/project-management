@@ -14,7 +14,7 @@ public class KiemThuVien extends NhanVien {
     private static int tienError = 200000;
     private int soError;
 
-    public KiemThuVien(int maNhanVien, String tenNhanVien, String email, String gioiTinh , int heSo ,String phongban, int soError) {
+    public KiemThuVien(int maNhanVien, String tenNhanVien, String email, String gioiTinh , int heSo ,PhongBan phongban, int soError) {
         super(maNhanVien, tenNhanVien, email, gioiTinh,heSo,phongban);
         this.soError = soError;
     }

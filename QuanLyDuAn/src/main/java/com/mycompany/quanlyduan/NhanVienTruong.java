@@ -24,9 +24,28 @@ public class NhanVienTruong extends NhanVien {
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private Date ngayNhamChuc;
 
-    public NhanVienTruong(int maNhanVien, String tenNhanVien, String email, String gioiTinh, String Ngay, double heSo, String phongBan) throws ParseException, SQLException, ClassNotFoundException {
+    public NhanVienTruong(int maNhanVien, String tenNhanVien, String email, String gioiTinh, String Ngay, double heSo, PhongBan phongBan) throws ParseException, SQLException, ClassNotFoundException {
         super(maNhanVien, tenNhanVien, email, gioiTinh, heSo, phongBan);
-        this.ngayNhamChuc =  FORMAT.parse(Ngay);  
+        this.ngayNhamChuc = FORMAT.parse(Ngay);
+    }
+
+    @Override
+    public void insertStaff() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {
+            System.out.println("connected");
+            String sql = "INSERT INTO nhanvien VALUES(?,?,?,?,?,?,?)";
+            try ( PreparedStatement str = conn.prepareStatement(sql)) {
+                str.setInt(1, this.getMaNhanVien());
+                str.setString(2, this.getTenNhanVien());
+                str.setString(3, this.getEmail());
+                str.setString(4, this.getGioiTinh());
+                str.setString(5, this.layLoai());
+                str.setDouble(6, this.tinhLuong());
+                str.setString(7, this.getPhongBan().getTenPhongBan());
+                str.execute();
+            }
+        }
     }
 //    public void insertManager() throws ClassNotFoundException, SQLException{
 //         java.util.Date date_NhamChuc = this.ngayNhamChuc;
@@ -48,6 +67,7 @@ public class NhanVienTruong extends NhanVien {
 //             }
 //        }
 //    }
+
     @Override
     public String layLoai() {
         return "Nhan Vien Truong";

@@ -359,7 +359,7 @@ public class DanhSachDuAn {
             conn.close();
         }
     }
-
+// ho tro xoa du an
     public void deleteStaffProject(int maDuAn) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/oop", "root", "12345678")) {

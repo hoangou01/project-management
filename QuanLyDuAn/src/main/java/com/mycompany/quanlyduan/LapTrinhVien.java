@@ -13,7 +13,7 @@ public class LapTrinhVien extends NhanVien {
 
     private int soGioLamThem;
     
-    public LapTrinhVien(int maNhanVien, String tenNhanVien, String email, String gioiTinh ,int heSo, String phongBan , int gioLamThem) {
+    public LapTrinhVien(int maNhanVien, String tenNhanVien, String email, String gioiTinh ,int heSo, PhongBan phongBan , int gioLamThem) {
         super(maNhanVien, tenNhanVien, email, gioiTinh ,heSo , phongBan);
         this.soGioLamThem =  gioLamThem;
     }

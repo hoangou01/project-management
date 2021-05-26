@@ -13,7 +13,7 @@ public class ThietKeVien extends NhanVien {
 
     private double bonus;
 
-    public ThietKeVien(int maNhanVien, String tenNhanVien, String email, String gioiTinh ,int heSo, String phongBan, int bonus) {
+    public ThietKeVien(int maNhanVien, String tenNhanVien, String email, String gioiTinh ,int heSo, PhongBan phongBan, int bonus) {
         super(maNhanVien, tenNhanVien, email, gioiTinh,heSo , phongBan);
         this.bonus = bonus;
     }

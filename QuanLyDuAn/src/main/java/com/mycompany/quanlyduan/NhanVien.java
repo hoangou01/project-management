@@ -24,7 +24,7 @@ public class NhanVien {
     private String gioiTinh;
     private double heSo;
     private List<DuAn> duAnCuaNV;
-    private String phongBan;
+    private PhongBan phongBan;
 
     public String layLoai() {
         return "nhan vien thuong";
@@ -34,7 +34,7 @@ public class NhanVien {
         return this.luongCoBan * this.heSo;
     }
 
-    public NhanVien(int maNhanVien, String tenNhanVien, String email, String gioiTinh, double heSo, String phongBan) {
+    public NhanVien(int maNhanVien, String tenNhanVien, String email, String gioiTinh, double heSo, PhongBan phongBan) {
         this.maNhanVien = maNhanVien;
         this.tenNhanVien = tenNhanVien;
         this.email = email;
@@ -56,12 +56,11 @@ public class NhanVien {
                 str.setString(4, this.gioiTinh);
                 str.setString(5, this.layLoai());
                 str.setDouble(6, this.tinhLuong());
-                str.setString(7, this.phongBan);
+                str.setString(7, this.phongBan.getTenPhongBan());
                 str.execute();
             }
         }
     }
-
 
     /**
      * @return the maNhanVien
@@ -164,5 +163,19 @@ public class NhanVien {
 //  public void insertManager() {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
+
+    /**
+     * @return the phongBan
+     */
+    public PhongBan getPhongBan() {
+        return phongBan;
+    }
+
+    /**
+     * @param phongBan the phongBan to set
+     */
+    public void setPhongBan(PhongBan phongBan) {
+        this.phongBan = phongBan;
+    }
 
 }
